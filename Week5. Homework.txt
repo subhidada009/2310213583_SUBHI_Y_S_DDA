@@ -1,55 +1,29 @@
 Week5. Homework
 
-Example 1: a * b + c
-Step 1: Initialize
+#include <stdio.h>
+#include <stdlib.h>
 
-Input: a * b + c
+struct Node{
+    int data;
+    struct Node *prev,*next;
+};
 
-Stack: empty
+struct Node* head=NULL;
 
-Output: empty
+void insert(int x){
+    struct Node* n=malloc(sizeof(struct Node));
+    n->data=x; n->prev=NULL; n->next=head;
+    if(head) head->prev=n;
+    head=n;
+}
 
-Step 2: Process each symbol
+void traverse(){
+    struct Node* t=head;
+    while(t){ printf("%d ",t->data); t=t->next; }
+}
 
-| Symbol | Action                                                         | Stack | Output    |
-| ------ | -------------------------------------------------------------- | ----- | --------- |
-| `a`    | Operand → output                                               | []    | `a`       |
-| `*`    | Operator → push                                                | `*`   | `a`       |
-| `b`    | Operand → output                                               | `*`   | `a b`     |
-| `+`    | Operator → pop `*` (higher precedence) → output, then push `+` | `+`   | `a b *`   |
-| `c`    | Operand → output                                               | `+`   | `a b * c` |
-
-Step 3: Pop remaining stack
-
-Pop + → output
-
-Result Postfix: a b * c +
-
-
-Example 2: (a + b) * c
-Step 1: Initialize
-
-Input: (a + b) * c
-
-Stack: empty
-
-Output: empty
-
-Step 2: Process each symbol
-
-| Symbol | Action                 | Stack | Output    |
-| ------ | ---------------------- | ----- | --------- |
-| `(`    | Push `(`               | `(`   |           |
-| `a`    | Operand → output       | `(`   | `a`       |
-| `+`    | Operator → push        | `( +` | `a`       |
-| `b`    | Operand → output       | `( +` | `a b`     |
-| `)`    | Pop until `(` → output | []    | `a b +`   |
-| `*`    | Operator → push        | `*`   | `a b +`   |
-| `c`    | Operand → output       | `*`   | `a b + c` |
-
-
-Step 3: Pop remaining stack
-
-Pop * → output
-
-Result Postfix: a b + c *
+int main(){
+    insert(10); insert(20); insert(30);
+    traverse();
+    return 0;
+}
